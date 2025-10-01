@@ -16,8 +16,7 @@ return new class extends Migration
         $table->timestamps();
         $table->softDeletes();
         $table->string('name');
-        $table->string('state')->nullable();
-        $table->tinyInteger('campo')->default(1);
+        $table->tinyInteger('state')->default(1);
         $table->string('address')->nullable();        
         });
     }

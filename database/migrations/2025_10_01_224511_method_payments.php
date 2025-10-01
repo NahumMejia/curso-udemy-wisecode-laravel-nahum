@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sucursales', function (Blueprint $table) {
+        Schema::create('method_payments', function (Blueprint $table) {
         $table->id();
+        $table->bigInteger('method_payment_id')->nullable();
         $table->timestamps();
         $table->softDeletes();
         $table->string('name');
         $table->tinyInteger('state')->default(1);
-        $table->string('address')->nullable();        
         });
     }
 
