@@ -13,37 +13,44 @@ class UserAccessController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $this->authorize("viewAny",User::class);
-        $search = $request->get("search");
+public function index(Request $request)
+{
+    $this->authorize("viewAny",User::class);
+    $search = $request->get("search");
 
-        $users = User::where("name","like","%".$search."%")->orderBy("id","desc")->paginate(25);
+    // Agregar ->with('role') para cargar la relación
+    $users = User::with('role')
+        ->where("name","like","%".$search."%")
+        ->orderBy("id","desc")
+        ->paginate(25);
 
-        return response()->json([
-            "total" => $users->total(),
-            "users" => $users->map(function($user) {
-                return [
-                    "id" => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    "surname" => $user->surname,
-                    "full_name" => $user->name.' '.$user->surname,
-                    "phone" =>  $user->phone,
-                    "role_id" => $user->role_id,
-                    "role" => $user->role,
-                    "roles" => $user->roles,
-                    "sucursale_id" => $user->sucursale_id,
-                    "sucursale" => $user->sucursale,
-                    "type_document" => $user->type_document,
-                    "n_document" => $user->n_document,
-                    "gender" => $user->gender,
-                    "avatar" => $user->avatar ? env("APP_URL")."storage/".$user->avatar : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-                    "created_format_at" => $user->created_at->format("Y-m-d h:i A"),
-                ];
-            }),
-        ]);
-    }
+    return response()->json([
+        "total" => $users->total(),
+        "users" => $users->map(function($user) {
+            return [
+                "id" => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                "surname" => $user->surname,
+                "full_name" => $user->name.' '.$user->surname,
+                "phone" =>  $user->phone,
+                "role_id" => $user->role_id,
+                "role" => $user->role ? [
+                    'id' => $user->role->id,
+                    'name' => $user->role->name
+                ] : null,
+                "roles" => $user->roles,
+                "sucursale_id" => $user->sucursale_id,
+                "sucursale" => $user->sucursale,
+                "type_document" => $user->type_document,
+                "n_document" => $user->n_document,
+                "gender" => $user->gender,
+                "avatar" => $user->avatar ? env("APP_URL")."storage/".$user->avatar : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+                "created_format_at" => $user->created_at->format("Y-m-d h:i A"),
+            ];
+        }),
+    ]);
+}
 
     public function config(){
         return response()->json([
