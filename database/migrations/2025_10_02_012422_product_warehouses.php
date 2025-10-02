@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_wallets', function (Blueprint $table) { 
+        Schema::create('product_warehouses', function (Blueprint $table) { 
         $table->id();
         $table->bigInteger('product_id');
         $table->bigInteger('unit_id');
