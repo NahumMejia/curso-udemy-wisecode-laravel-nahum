@@ -20,17 +20,24 @@ return new class extends Migration
             $table->string('sku');
             $table->double('price_general');
             $table->string('description');
-            $table->json('specifications');
-
+            $table->json('specifications')->nullable();
             $table->bigInteger('product_categorie_id');
             $table->tinyInteger('is_gift')->default(1);
             $table->double('min_discount')->nullable();
             $table->double('max_discount')->nullable();
             $table->double('umbral');
+            $table->tinyInteger('is_discount')->default(1);
+            $table->string('tax_selected');
+            $table->decimal('importe_iva', 8, 2)->default(0);
             $table->bigInteger('umbral_unit_id')->nullable();
-            $table->tinyInteger('disponibilidad')->default(1);
-            $table->double('tiempo_de_abastecimiento')->nullable();
+            $table->tinyInteger('disponiblidad')->default(1);
+            $table->tinyInteger('state')->default(1);
+            $table->integer('tiempo_de_abastecimiento')->default(0);
             $table->bigInteger('provider_id')->nullable();
+            $table->decimal('weight', 8, 2)->default(0);
+            $table->decimal('width', 8, 2)->default(0);
+            $table->decimal('height', 8, 2)->default(0);
+            $table->decimal('length', 8, 2)->default(0);
         });
     }
 

@@ -15,8 +15,9 @@ return new class extends Migration
         $table->id();
         $table->bigInteger('product_id');
         $table->bigInteger('unit_id');
-        $table->bigInteger('warehose_id');
-        $table->double('stock');        
+        $table->bigInteger('warehouse_id');
+        $table->double('stock');
+        $table->integer('state_stock')->default(0);  
         $table->timestamps();
         $table->softDeletes();
         });

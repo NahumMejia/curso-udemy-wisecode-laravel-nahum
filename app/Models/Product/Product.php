@@ -31,7 +31,6 @@ class Product extends Model
         "disponiblidad",
         "tiempo_de_abastecimiento",
         "state",
-        "state_stock",
         "provider_id",
         "is_discount",
         "tax_selected",
@@ -100,9 +99,6 @@ class Product extends Model
 
         if($tax_selected){
             $query->where("tax_selected",$tax_selected);
-        }
-        if($state_stock){
-            $query->where("state_stock",$state_stock);
         }
         if($sucursale_price_multiple){
             $query->whereHas("wallets",function($sub) use($sucursale_price_multiple){

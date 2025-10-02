@@ -30,7 +30,7 @@ class PermissionsDemoSeeder extends Seeder
             'register_proforma', 'edit_proforma', 'delete_proforma', 'cronograma', 
             'comisiones', 'register_compra', 'edit_compra', 'delete_compra', 
             'register_transporte', 'edit_transporte', 'delete_transporte', 'despacho', 
-            'movimientos', 'kardex'
+            'movimientos', 'kardex', 'list_product'
         ];
 
         foreach ($permissions as $permission) {
