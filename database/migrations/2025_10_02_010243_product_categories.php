@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_segments', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
         $table->id();
         $table->timestamps();
         $table->softDeletes();
         $table->string('name');
+        $table->string('imagen');
         $table->tinyInteger('state')->default(1);
         });
     }
