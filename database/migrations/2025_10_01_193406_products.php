@@ -21,6 +21,16 @@ return new class extends Migration
             $table->double('price_general');
             $table->string('description');
             $table->json('specifications');
+
+            $table->bigInteger('product_categorie_id');
+            $table->tinyInteger('is_gift')->default(1);
+            $table->double('min_discount')->nullable();
+            $table->double('max_discount')->nullable();
+            $table->double('umbral');
+            $table->bigInteger('umbral_unit_id')->nullable();
+            $table->tinyInteger('disponibilidad')->default(1);
+            $table->double('tiempo_de_abastecimiento')->nullable();
+            $table->bigInteger('provider_id')->nullable();
         });
     }
 
