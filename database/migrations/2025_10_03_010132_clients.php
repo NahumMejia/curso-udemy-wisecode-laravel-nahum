@@ -12,30 +12,30 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clients', function (Blueprint $table) {
-        $table->id();
-        $table->timestamps();
-        $table->softDeletes();
-        $table->string('name');
-        $table->string('surname');
-        $table->string('full_name');
-        $table->string('phone');
-        $table->string('email');
-        $table->string('type_document');
-        $table->string('n_document');
-        $table->string('ubigeo_region');
-        $table->string('ubigeo_provincia');
-        $table->string('ubigeo_distrito');
-        $table->string('region');
-        $table->string('provincia');
-        $table->string('distrito');
-        $table->string('address');
-        $table->timestamp('birthdate')->nullable();
-        $table->tinyInteger('state')->default(1);
-        $table->tinyInteger('type')->default(1);
-        $table->tinyInteger('is_parcial')->default(1);
-        $table->bigInteger('sucursale_id')->nullable();
-        $table->bigInteger('asesor_id')->nullable();
-        $table->bigInteger('client_segment_id')->nullable();
+            $table->id();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->string('name')->default('Unknown');
+            $table->string('surname')->default('Unknown');
+            $table->string('full_name')->default('Unknown');
+            $table->string('phone')->default('Unknown');
+            $table->string('email')->default('Unknown');
+            $table->string('type_document')->default('Unknown');
+            $table->string('n_document')->default('Unknown');
+            $table->string('ubigeo_region')->default('Unknown');
+            $table->string('ubigeo_provincia')->default('Unknown');
+            $table->string('ubigeo_distrito')->default('Unknown');
+            $table->string('region')->default('Unknown');
+            $table->string('provincia')->default('Unknown');
+            $table->string('distrito')->default('Unknown');
+            $table->string('address')->default('Unknown');
+            $table->timestamp('birthdate')->nullable();
+            $table->tinyInteger('state')->default(1);
+            $table->tinyInteger('type')->default(1);
+            $table->tinyInteger('is_parcial')->default(1);
+            $table->bigInteger('sucursale_id')->nullable();
+            $table->bigInteger('asesor_id')->nullable();
+            $table->bigInteger('client_segment_id')->nullable();
         });
     }
 
@@ -44,6 +44,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('clients');
     }
 };
