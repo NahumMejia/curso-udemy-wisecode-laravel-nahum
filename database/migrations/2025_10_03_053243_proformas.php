@@ -19,10 +19,10 @@ return new class extends Migration
         $table->bigInteger('user_id');  
         $table->bigInteger('client_id');  
         $table->bigInteger('client_segment_id');  
-        $table->double('subtotal');
-        $table->double('discount');
-        $table->double('total');
-        $table->double('igv');
+        $table->double('subtotal')->default(0);
+        $table->double('discount')->default(0);
+        $table->double('total')->default(0);
+        $table->double('igv')->default(0);
         $table->double('deuda')->default(0);
         $table->double('paid_out')->default(0);
         $table->timestamp('date_validation')->nullable();

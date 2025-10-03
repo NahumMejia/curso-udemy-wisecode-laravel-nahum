@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes(); 
-            $table->double('quantity');
-            $table->double('price_unit');
+            $table->double('quantity')->default(0);
+            $table->double('price_unit')->default(0);
             $table->double('discount')->default(0);
-            $table->double('subtotal');
-            $table->double('total');
+            $table->double('subtotal')->default(0);
+            $table->double('total')->default(0);
             $table->bigInteger('proforma_id');   
             $table->bigInteger('product_id');   
             $table->bigInteger('product_categorie_id');   

@@ -16,20 +16,14 @@ class ProformaResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->resource->id,
-            "user_id" => $this->resource->user_id,
             "asesor" => [
-                "id" => $this->resource->asesor->id,
                 "full_name" => $this->resource->asesor->name.' '.$this->resource->asesor->surname,
             ],
             "client_id" => $this->resource->client_id,
             "client" => [
-                "id" => $this->resource->client->id,
                 "full_name" =>  $this->resource->client->full_name,
                 // "client_segment" => $this->resource->client->client_segment,
                 "client_segment" => [
-                    "id" => $this->resource->client_segment->id,
-                    "name" => $this->resource->client_segment->name,
                 ],
                 "phone" => $this->resource->client->phone,
                 "type" => $this->resource->client->type,
@@ -38,13 +32,9 @@ class ProformaResource extends JsonResource
             ],
             "client_segment_id" => $this->resource->client_segment_id,
             "client_segment" => [
-                "id" => $this->resource->client_segment->id,
-                "name" => $this->resource->client_segment->name,
             ],
             "sucursale_id" => $this->resource->sucursale_id,
             "sucursale" => [
-                "id" => $this->resource->sucursale->id,
-                "name" => $this->resource->sucursale->name,
             ],
             "subtotal" => round($this->resource->subtotal,2),
             "discount" => $this->resource->discount,
@@ -66,10 +56,8 @@ class ProformaResource extends JsonResource
                     $units->push($unit_only[0]->unit);
                 }
                 return [
-                    "id" => $detail->id,
                     "product_id" => $detail->product_id,
                     "product" => [
-                        "id" => $detail->product->id,
                         "title" => $detail->product->title,
                         "price_general" => $detail->product->price_general,
                         "min_discount" => $detail->product->min_discount,
@@ -128,10 +116,8 @@ class ProformaResource extends JsonResource
                 ];
             }),
             "proforma_deliverie" => [
-                "id" => $this->resource->proforma_deliverie->id,
                 "sucursale_deliverie_id" => $this->resource->proforma_deliverie->sucursale_deliverie_id,
                 "sucursal_deliverie" => [
-                    "id" => $this->resource->proforma_deliverie->sucursal_deliverie->id,
                     "name" => $this->resource->proforma_deliverie->sucursal_deliverie->name,
                 ],
                 "date_entrega" => Carbon::parse($this->resource->proforma_deliverie->date_entrega)->format("Y-m-d"),
@@ -152,7 +138,6 @@ class ProformaResource extends JsonResource
                 return [
                     "method_payment_id" => $payment->method_payment_id,
                     "method_payment" => [
-                       "id" =>  $payment->method_payment->id,
                         "name" =>$payment->method_payment->name,
                     ],
                     "amount" => $payment->amount,
