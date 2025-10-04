@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::table('caja_historie_payments', function (Blueprint $table) {
+       Schema::create('caja_historie_payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->softDeletes();

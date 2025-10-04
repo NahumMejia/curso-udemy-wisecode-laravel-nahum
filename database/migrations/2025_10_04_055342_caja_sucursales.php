@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cajas_sucursales', function (Blueprint $table) {
+        Schema::create('cajas_sucursales', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->timestamp('date_close');
+            $table->timestamp('date_close')->nullable();
             $table->softDeletes();
             $table->double('efectivo_initial')->default(0);
             $table->double('efectivo_finish')->default(0);
