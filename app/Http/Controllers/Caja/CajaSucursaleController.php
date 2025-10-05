@@ -30,49 +30,74 @@ class CajaSucursaleController extends Controller
         //
     }
 
-    public function config(Request $request){
-
-        $sucursale_id = $request->sucursale_id;
-
-        $caja = Caja::where("sucursale_id",$sucursale_id)->where("type",1)->first();
-
-        $caja_sucursale = CajaSucursale::where("caja_id",$caja->id)->where("state",1)->first();
-
-        $method_payments = MethodPayment::where("method_payment_id",NULL)->where("state",1)->get();
-
-        $sucursales = Sucursale::where("state",1)->get();
+public function config(Request $request)
+{
+    // Validar que se envíe el parámetro
+    if (!$request->sucursale_id) {
         return response()->json([
-            "caja" => [
-                "id" => $caja->id,
-                "amount" => $caja->amount,
-                "sucursale" => [
-                    "id" => $caja->sucursale->id,
-                    "name" => $caja->sucursale->name,
-                ],
-                "type" => $caja->type,
-            ],
-            "caja_sucursale" => $caja_sucursale,
-            "created_at_apertura" => $caja_sucursale ? $caja_sucursale->created_at->format("Y-m-d h:i A") : NULL,
-            "method_payments" => $method_payments->map(function($method_payment){
-                return [
-                    "id" => $method_payment->id,
-                    "name" => $method_payment->name,
-                    "bancos" => $method_payment->method_payments->map(function($children) {
-                        return [
-                            "id" => $children->id,
-                            "name" => $children->name,
-                        ];
-                    })
-                ];
-            }),
-            "sucursales" => $sucursales->map(function($sucursale) {
-                return [
-                    "id" => $sucursale->id,
-                    "name" => $sucursale->name
-                ];
-            })
-        ]);
+            'message' => 'El parámetro sucursale_id es requerido'
+        ], 400);
     }
+
+    // Buscar la caja
+    $caja = Caja::where("sucursale_id", $request->sucursale_id)
+                ->where("type", 1)
+                ->first();
+
+    if (!$caja) {
+        return response()->json([
+            'message' => 'No se encontró ninguna caja para esta sucursal'
+        ], 404);
+    }
+
+    // Buscar la caja sucursale
+    $caja_sucursale = CajaSucursale::where("caja_id", $caja->id)
+                                   ->where("state", 1)
+                                   ->first();
+
+    // Métodos de pago
+    $method_payments = MethodPayment::where("method_payment_id", NULL)
+                                    ->where("state", 1)
+                                    ->get();
+
+    // Sucursales activas
+    $sucursales = Sucursale::where("state", 1)->get();
+
+    return response()->json([
+        "caja" => [
+            "id" => $caja->id,
+            "amount" => $caja->amount,
+            "sucursale" => [
+                "id" => $caja->sucursale->id,
+                "name" => $caja->sucursale->name,
+            ],
+            "type" => $caja->type,
+        ],
+        "caja_sucursale" => $caja_sucursale,
+        "created_at_apertura" => $caja_sucursale
+            ? $caja_sucursale->created_at->format("Y-m-d h:i A")
+            : NULL,
+        "method_payments" => $method_payments->map(function ($method_payment) {
+            return [
+                "id" => $method_payment->id,
+                "name" => $method_payment->name,
+                "bancos" => $method_payment->method_payments->map(function ($children) {
+                    return [
+                        "id" => $children->id,
+                        "name" => $children->name,
+                    ];
+                })
+            ];
+        }),
+        "sucursales" => $sucursales->map(function ($sucursale) {
+            return [
+                "id" => $sucursale->id,
+                "name" => $sucursale->name
+            ];
+        })
+    ]);
+}
+
 
     public function apertura_caja(Request $request){
         $caja_id = $request->caja_id;
