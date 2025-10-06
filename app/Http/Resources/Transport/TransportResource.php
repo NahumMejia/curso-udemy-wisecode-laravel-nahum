@@ -18,24 +18,24 @@ class TransportResource extends JsonResource
         return [
             "id" => $this->resource->id,
             "warehouse_start_id" => $this->resource->warehouse_start_id,
-            "warehouse_start" => [
+            "warehouse_start" => $this->resource->warehouse_start ? [
                 "id" => $this->resource->warehouse_start->id,
                 "name" => $this->resource->warehouse_start->name,
-            ],
+            ] : null,
             "warehouse_end_id" => $this->resource->warehouse_end_id,
-            "warehouse_end" => [
+            "warehouse_end" => $this->resource->warehouse_end ? [
                 "id" => $this->resource->warehouse_end->id,
                 "name" => $this->resource->warehouse_end->name,
-            ],
+            ] : null,
             "user_id" => $this->resource->user_id,
-            "user" => [
+            "user" => $this->resource->user ? [
                 "id" => $this->resource->user->id,
                 "full_name" => $this->resource->user->name.' '.$this->resource->user->surname,
-                "sucursale" => [
+                "sucursale" => $this->resource->user->sucursale ? [
                     "id" => $this->resource->user->sucursale->id,
                     "name" => $this->resource->user->sucursale->name,
-                ]
-            ],
+                ] : null
+            ] : null,
             "state" => $this->resource->state,
             "date_emision" => Carbon::parse($this->resource->date_emision)->format("Y-m-d"),
             "description" => $this->resource->description,
@@ -48,23 +48,23 @@ class TransportResource extends JsonResource
                     "id" => $detail->id,
                     "transport_id"  => $detail->transport_id,
                     "product_id"  => $detail->product_id,
-                    "product" => [
+                    "product" => $detail->product ? [
                         "id" => $detail->product->id,
                         "title" => $detail->product->title,
-                        "warehouses" => $detail->product->warehouses->map(function($warehouse) {
+                        "warehouses" => $detail->product->warehouses ? $detail->product->warehouses->map(function($warehouse) {
                             return [
                                 "id" => $warehouse->id,
                                 "unit" => $warehouse->unit,
                                 "warehouse" => $warehouse->warehouse,
                                 "quantity" => $warehouse->stock,
                             ];
-                        }),
-                    ],
+                        }) : [],
+                    ] : null,
                     "unit_id"  => $detail->unit_id,
-                    "unit" => [
+                    "unit" => $detail->unit ? [
                         "id" => $detail->unit->id,
                         "name" => $detail->unit->name,
-                    ],
+                    ] : null,
                     "description"  => $detail->description,
                     "quantity"  => $detail->quantity,
                     "price_unit"  => $detail->price_unit,
@@ -74,14 +74,14 @@ class TransportResource extends JsonResource
                     "encargado_entrega" => $detail->encargado_entrega ? [
                         "id" => $detail->encargado_entrega->id,
                         "full_name" => $detail->encargado_entrega->name.' '.$detail->encargado_entrega->surname,
-                    ]: NULL,
+                    ] : NULL,
                     "date_entrega"  => $detail->date_entrega ? Carbon::parse($detail->date_entrega)->format("Y-m-d h:i A") : NULL,
 
                     "user_salida"  => $detail->user_salida,
                     "encargado_salida" => $detail->encargado_salida ? [
                         "id" => $detail->encargado_salida->id,
                         "full_name" => $detail->encargado_salida->name.' '.$detail->encargado_salida->surname,
-                    ]: NULL,
+                    ] : NULL,
                     "date_salida"  => $detail->date_salida ? Carbon::parse($detail->date_salida)->format("Y-m-d h:i A") : NULL,
                 ];
             }),

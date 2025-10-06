@@ -30,14 +30,11 @@ class Purchase extends Model
         "igv"
     ];
 
-    // AGREGAR ESTO: Cargar siempre estas relaciones
+    // SOLO cargar las relaciones básicas, NO los details
     protected $with = [
         'warehouse',
-        'user.sucursale',
+        'user',
         'provider',
-        'details.product',
-        'details.unit',
-        'details.encargado'
     ];
 
     public function setCreatedAtAttribute($value) {

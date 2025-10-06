@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Kpi\KpiController;
+use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\UserAccessController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Kardex\KardexController;
@@ -183,3 +184,17 @@ Route::get("excel/export-products",[ProductController::class,"export_products"])
 Route::get("excel/export-clients",[ClientController::class,"export_clients"]);
 Route::get("excel/export-contract-processs",[CajaSucursaleController::class,"export_report_caja"]);
 Route::get("excel/export-kardex",[KardexController::class,"export_kardex"]);
+
+Route::group(['prefix' => 'purchase'], function(){
+    Route::get('index', [PurchaseController::class, 'index']);
+    Route::get('config', [PurchaseController::class, 'config']);
+    Route::get('show/{id}', [PurchaseController::class, 'show']);
+    Route::post('store', [PurchaseController::class, 'store']);
+    Route::put('update/{id}', [PurchaseController::class, 'update']);
+    Route::delete('destroy/{id}', [PurchaseController::class, 'destroy']);
+    
+    Route::post('add-detail', [PurchaseController::class, 'addDetail']);
+    Route::put('update-detail/{id}', [PurchaseController::class, 'updateDetail']);
+    Route::delete('delete-detail/{id}', [PurchaseController::class, 'deleteDetail']);
+    Route::post('proceso-entrega', [PurchaseController::class, 'procesoEntrega']);
+});
