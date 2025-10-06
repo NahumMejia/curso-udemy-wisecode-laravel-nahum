@@ -18,25 +18,25 @@ class PurchaseResource extends JsonResource
         return [
             "id" => $this->resource->id,
             "warehouse_id" => $this->resource->warehouse_id,
-            "warehouse" => [
+            "warehouse" => $this->resource->warehouse ? [
                 "id" => $this->resource->warehouse->id,
                 "name" => $this->resource->warehouse->name,
-            ],
+            ] : null,
             "user_id" => $this->resource->user_id,
-            "user" => [
+            "user" => $this->resource->user ? [
                 "id" => $this->resource->user->id,
                 "full_name" => $this->resource->user->name.' '.$this->resource->user->surname,
-                "sucursale" => [
+                "sucursale" => $this->resource->user->sucursale ? [
                     "id" => $this->resource->user->sucursale->id,
                     "name" => $this->resource->user->sucursale->name,
-                ]
-            ],
+                ] : null
+            ] : null,
             "state" => $this->resource->state,
             "provider_id" => $this->resource->provider_id,
-            "provider" => [
+            "provider" => $this->resource->provider ? [
                 "id" => $this->resource->provider->id,
                 "full_name" => $this->resource->provider->full_name,
-            ],
+            ] : null,
             "date_emision" => Carbon::parse($this->resource->date_emision)->format("Y-m-d"),
             "type_comprobant" => $this->resource->type_comprobant,
             "n_comprobant" => $this->resource->n_comprobant,
@@ -50,15 +50,15 @@ class PurchaseResource extends JsonResource
                     "id" => $detail->id,
                     "purchase_id"  => $detail->purchase_id,
                     "product_id"  => $detail->product_id,
-                    "product" => [
+                    "product" => $detail->product ? [
                         "id" => $detail->product->id,
                         "title" => $detail->product->title,
-                    ],
+                    ] : null,
                     "unit_id"  => $detail->unit_id,
-                    "unit" => [
+                    "unit" => $detail->unit ? [
                         "id" => $detail->unit->id,
                         "name" => $detail->unit->name,
-                    ],
+                    ] : null,
                     "description"  => $detail->description,
                     "quantity"  => $detail->quantity,
                     "price_unit"  => $detail->price_unit,
@@ -68,7 +68,7 @@ class PurchaseResource extends JsonResource
                     "encargado" => $detail->encargado ? [
                         "id" => $detail->encargado->id,
                         "full_name" => $detail->encargado->name.' '.$detail->encargado->surname,
-                    ]: NULL,
+                    ] : NULL,
                     "date_entrega"  => $detail->date_entrega ? Carbon::parse($detail->date_entrega)->format("Y-m-d h:i A") : NULL,
                 ];
             }),

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->bigInteger('user_id')->nullable();;
             $table->bigInteger('provider_id')->nullable();;
             $table->tinyInteger('state')->default(1);
+            
     });
     }
 

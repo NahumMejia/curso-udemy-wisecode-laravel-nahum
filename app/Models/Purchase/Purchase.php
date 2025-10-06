@@ -14,6 +14,7 @@ class Purchase extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
     protected $fillable = [
         "warehouse_id",
         "user_id",
@@ -29,10 +30,21 @@ class Purchase extends Model
         "igv"
     ];
 
+    // AGREGAR ESTO: Cargar siempre estas relaciones
+    protected $with = [
+        'warehouse',
+        'user.sucursale',
+        'provider',
+        'details.product',
+        'details.unit',
+        'details.encargado'
+    ];
+
     public function setCreatedAtAttribute($value) {
         date_default_timezone_set("America/Lima");
         $this->attributes["created_at"] = Carbon::now();
     }
+    
     public function setUpdatedAtAttribute($value) {
         date_default_timezone_set("America/Lima");
         $this->attributes["updated_at"] = Carbon::now();

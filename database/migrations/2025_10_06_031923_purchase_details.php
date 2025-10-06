@@ -23,7 +23,7 @@ return new class extends Migration
             $table->bigInteger('purchase_id');
             $table->bigInteger('product_id');
             $table->bigInteger('unit_id');
-            $table->bigInteger('user_entrega');
+            $table->bigInteger('user_entrega')->nullable();
             $table->tinyInteger('state')->default(1);
     });
     }
