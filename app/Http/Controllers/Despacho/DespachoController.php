@@ -14,31 +14,41 @@ class DespachoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        
-        $search = $request->search;
-        $client_segment_id = $request->client_segment_id;
-        $asesor_id = $request->asesor_id;
-        $product_categorie_id = $request->product_categorie_id;
-        $search_client = $request->search_client;
-        $search_product = $request->search_product;
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
-
-        $contracts = Proforma::filterAdvance($search,$client_segment_id,$asesor_id,
-                                    $product_categorie_id,$search_client,$search_product,
-                                    $start_date,$end_date,null)
-                                    ->where("state_proforma",2)
-                                    ->where("state_payment",3)
-                                    ->orderBy("id","desc")->paginate(25);
-
-        return response()->json([
-            "total" => $contracts->total(),
-            "contracts" => ProformaCollection::make($contracts),
-        ]);
-
-    }
+public function index(Request $request)
+{
+    $search = $request->search;
+    $client_segment_id = $request->client_segment_id;
+    $asesor_id = $request->asesor_id;
+    $product_categorie_id = $request->product_categorie_id;
+    $search_client = $request->search_client;
+    $search_product = $request->search_product;
+    $start_date = $request->start_date;
+    $end_date = $request->end_date;
+    $user = auth('api')->user();
+    
+    $contracts = Proforma::filterAdvance(
+        $search,
+        $client_segment_id,
+        $asesor_id,
+        $product_categorie_id,
+        $search_client,
+        $search_product,
+        $start_date,
+        $end_date,
+        null,
+        $user
+    )
+    // COMENTADO TEMPORALMENTE PARA VER TODAS LAS PROFORMAS
+    // ->where("state_proforma", 2)
+    // ->where("state_payment", 3)
+    ->orderBy("id", "desc")
+    ->paginate(25);
+    
+    return response()->json([
+        "total" => $contracts->total(),
+        "contracts" => ProformaCollection::make($contracts),
+    ]);
+}
 
     /**
      * Store a newly created resource in storage.
